@@ -23,6 +23,12 @@ async function insertData()
         const doctorCollection = dbName.collection('doctors');
 
 
+        // Default Get api
+        app.get('/', (req, res) =>
+        {
+            res.send('Server running');
+        });
+
         // Get api for services
         app.get('/services', async (req, res) =>
         {
