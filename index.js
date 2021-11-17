@@ -1,10 +1,12 @@
 const { MongoClient } = require('mongodb');
 const express = require('express');
 require('dotenv').config();
+const fileUpload = require('express-fileupload');
 const app = express();
 const port = process.env.PORT || 5000;
 const cors = require('cors');
 app.use(cors());
+app.use(fileUpload());
 app.use(express.json());
 
 
@@ -21,6 +23,7 @@ async function insertData()
         const serviceCollection = dbName.collection('services');
         const blogCollection = dbName.collection('blogs');
         const doctorCollection = dbName.collection('doctors');
+        const appointmentCollection = dbName.collection('appointments');
 
 
         // Default Get api
@@ -54,6 +57,21 @@ async function insertData()
             const result = await cursor.toArray();
             res.send(result);
         });
+
+        // Post api for appointment
+        app.post('/appointment', async (req, res) =>
+        {
+            const newAppointment = req.body;
+            const result = appointmentCollection.insertOne(newAppointment);
+            res.send(result);
+            console.log(result);
+        });
+        app.post('/images', async (req, res) =>
+        {
+            const image = req.body;
+            console.log(image);
+        });
+
 
         // Listen app
         app.listen(port, (req, res) =>
