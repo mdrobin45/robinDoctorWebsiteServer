@@ -25,6 +25,7 @@ async function insertData()
         const blogCollection = dbName.collection('blogs');
         const doctorCollection = dbName.collection('doctors');
         const appointmentCollection = dbName.collection('appointments');
+        const userInfoCollection = dbName.collection('userInformation');
 
 
         // Default Get api
@@ -81,6 +82,14 @@ async function insertData()
         {
             const image = req.body;
             console.log(image);
+        });
+
+        // Post api for user information
+        app.post('/userInfo', async (req, res) =>
+        {
+            const userInfo = req.body;
+            const result = await userInfoCollection.insertOne(userInfo);
+            res.send(result);
         });
 
 
