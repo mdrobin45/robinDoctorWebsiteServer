@@ -34,6 +34,14 @@ async function insertData()
             res.send('Server running');
         });
 
+        // Get api for user information
+        app.get('/user-info/:email', async (req, res) =>
+        {
+            const email = req.params.email;
+            const query = { userEmail: email };
+            const result = await userInfoCollection.findOne(query);
+            res.send(result);
+        });
         // Get api for services
         app.get('/services', async (req, res) =>
         {
@@ -47,8 +55,7 @@ async function insertData()
         {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
-            const cursor = serviceCollection.find(query);
-            const result = await cursor.toArray();
+            const result = await serviceCollection.findOne(query);
             res.send(result);
         });
 
